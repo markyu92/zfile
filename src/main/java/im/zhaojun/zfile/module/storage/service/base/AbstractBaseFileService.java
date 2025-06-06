@@ -97,6 +97,10 @@ public abstract class AbstractBaseFileService<P extends IStorageParam> implement
         }
     }
 
+    @Override
+    public boolean compression(String path, String name, String targetPath, String targetName) {
+        return false;
+    }
 
     @Override
     public void destroy() {

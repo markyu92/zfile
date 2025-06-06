@@ -259,4 +259,22 @@ public class FileOperatorController {
 		return AjaxJson.getSuccessData(batchOperatorResults);
 	}
 
+
+	@ApiOperationSupport(order = 7)
+	@Operation(summary = "压缩文件夹")
+	@PostMapping("/compression")
+	@CheckPassword(storageKeyFieldExpression = "[0].storageKey",
+			pathFieldExpression = "[0].path",
+			passwordFieldExpression = "[0].srcPathPassword")
+	@CheckPassword(storageKeyFieldExpression = "[0].storageKey",
+			pathFieldExpression = "[0].targetPath",
+			passwordFieldExpression = "[0].targetPathPassword")
+	@DemoDisable
+	public AjaxJson<Boolean> compression(@Valid @RequestBody CompressionRequest request) {
+		String storageKey = request.getStorageKey();
+		AbstractBaseFileService<?> fileService = StorageSourceContext.getByStorageKey(storageKey);
+		boolean compression = fileService.compression(request.getPath(), request.getName(),
+				request.getTargetPath(), request.getTargetName());
+		return AjaxJson.getSuccessData(compression);
+	}
 }

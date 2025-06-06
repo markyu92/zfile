@@ -1,8 +1,13 @@
 package im.zhaojun.zfile.module.storage.service.impl;
 
+import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.net.url.UrlBuilder;
 import cn.hutool.core.net.url.UrlPath;
 import cn.hutool.core.util.URLUtil;
+import com.alibaba.fastjson2.JSON;
+import com.aliyuncs.fc.client.FunctionComputeClient;
+import com.aliyuncs.fc.request.InvokeFunctionRequest;
+import com.aliyuncs.fc.response.InvokeFunctionResponse;
 import im.zhaojun.zfile.core.util.StringUtils;
 import im.zhaojun.zfile.core.util.UrlUtils;
 import im.zhaojun.zfile.module.storage.model.enums.StorageTypeEnum;
@@ -23,12 +28,14 @@ import software.amazon.awssdk.services.s3.presigner.S3Presigner;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
+import java.net.HttpURLConnection;
 import java.net.URI;
 import java.nio.charset.StandardCharsets;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author zhaojun
@@ -37,6 +44,8 @@ import java.util.List;
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 @Slf4j
 public class AliyunServiceImpl extends AbstractS3BaseFileService<AliyunParam> {
+
+    private FunctionComputeClient client;
 
     private Signer signer;
 
@@ -68,6 +77,8 @@ public class AliyunServiceImpl extends AbstractS3BaseFileService<AliyunParam> {
                 .build();
 
         setUploadCors();
+        client = new FunctionComputeClient(oss.id(), System.getenv("ACCOUNT_ID"),  param.getAccessKey(), param.getSecretKey());
+        client.setEndpoint(System.getenv("fc_endpoint"));
     }
 
     @Override
@@ -176,4 +187,38 @@ public class AliyunServiceImpl extends AbstractS3BaseFileService<AliyunParam> {
         }
     }
 
+
+    @Override
+    public boolean compression(String path, String name, String targetPath, String targetName) {
+
+        if (StringUtils.isBlank(targetPath)) {
+            targetPath = path;
+        }
+        if (StringUtils.isBlank(targetName)) {
+            targetName = name + ".zip";
+        }
+        String bucketName = param.getBucketName();
+        String fullPath = StringUtils.concatTrimStartSlashes(path, name);
+        String fullTargetPath = StringUtils.concatTrimStartSlashes(targetPath, targetName);
+        Map<String, String> params = MapUtil.ofEntries(
+                MapUtil.entry("bucket", bucketName),
+                MapUtil.entry("source-dir", fullPath),
+                MapUtil.entry("dest-file", fullTargetPath)
+        );
+        String functionName = System.getenv("function_name");
+        InvokeFunctionRequest request = new InvokeFunctionRequest(functionName, functionName);
+        request.setInvocationType(com.aliyuncs.fc.constants.Const.INVOCATION_TYPE_ASYNC);
+        request.setPayload(JSON.toJSONBytes(params));
+
+        try {
+            InvokeFunctionResponse response = client.invokeFunction(request);
+            if (HttpURLConnection.HTTP_ACCEPTED == response.getStatus()) {
+                return true;
+            }
+            log.error("阿里云fc函数请求失败, resp={}", response.getContent());
+        } catch (Exception e) {
+            log.error("阿里云fc函数请求失败", e);
+        }
+        return false;
+    }
 }

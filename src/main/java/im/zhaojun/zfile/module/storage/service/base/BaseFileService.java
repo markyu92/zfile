@@ -184,6 +184,15 @@ public interface BaseFileService {
     boolean renameFolder(String path, String name, String newName);
 
     /**
+     * 压缩文件夹
+     * @param path 目标文件夹父目录
+     * @param name 待压缩的目录
+     * @param targetPath    输出目录
+     * @param targetName    输出压缩包名称
+     */
+    boolean compression(String path, String name, String targetPath, String targetName);
+
+    /**
      * 获取文件上传地址
      *
      * @param   path
