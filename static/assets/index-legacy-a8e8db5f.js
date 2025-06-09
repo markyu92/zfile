@@ -1,0 +1,1 @@
+System.register(["./directive-legacy-64af483a.js"],(function(e,t){"use strict";var i,c;return{setters:[function(e){i=e.v,c=e.L}],execute:function(){e("E",{install:function(e){c._context=e._context,i._context=e._context,e.directive("loading",i),e.config.globalProperties.$loading=c},directive:i,service:c})}}}));

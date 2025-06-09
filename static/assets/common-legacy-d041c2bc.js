@@ -1,0 +1,1 @@
+System.register(["./index-legacy-e574cec8.js"],(function(e,t){"use strict";var n;return{setters:[function(e){n=e.ao}],execute:function(){e("g",(function(e,t){return n.get(e,{withCredentials:!1,responseType:t||"blob"})}))}}}));
