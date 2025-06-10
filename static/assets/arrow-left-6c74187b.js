@@ -1,1 +1,0 @@
-import{b as o,g as t,x as n}from"./index-008199ed.js";const r={viewBox:"0 0 24 24",width:"1.2em",height:"1.2em"};function l(s,e){return o(),t("svg",r,e[0]||(e[0]=[n("path",{fill:"currentColor",d:"M20 11v2H8l5.5 5.5l-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5L8 11z"},null,-1)]))}const i={name:"mdi-arrow-left",render:l};export{i as _};

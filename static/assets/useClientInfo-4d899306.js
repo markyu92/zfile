@@ -1,1 +1,0 @@
-import{d as r}from"./useAdminSetting-8228330a.js";import{r as t,ai as a}from"./index-008199ed.js";function u(){const e=t("");a(()=>{r().then(o=>{e.value=o.data})});const n=t(navigator.userAgent);return{clientIp:e,userAgent:n}}export{u};

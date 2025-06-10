@@ -1,1 +1,0 @@
-System.register(["./useAdminSetting-legacy-246910c5.js","./index-legacy-e574cec8.js"],(function(n,t){"use strict";var e,u,i;return{setters:[function(n){e=n.d},function(n){u=n.r,i=n.ai}],execute:function(){n("u",(function(){var n=u("");i((function(){e().then((function(t){n.value=t.data}))}));var t=u(navigator.userAgent);return{clientIp:n,userAgent:t}}))}}}));

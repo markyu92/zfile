@@ -1,1 +1,0 @@
-import{_ as o}from"./index-008199ed.js";const n={__name:"sso",setup(t){const e=new URLSearchParams(window.location.search).get("token");return e&&window.localStorage.setItem("zfile-token",e),o().push("/"),()=>{}}};export{n as default};

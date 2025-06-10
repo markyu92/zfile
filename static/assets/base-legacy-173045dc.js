@@ -1,1 +1,0 @@
-System.register([],(function(n,t){"use strict";return{execute:function(){var t=n("i",(function(n){return null==n||""===n}));n("s",(function(n){return!n||0===n.length})),n("c",(function(n){return"true"===n||"false"!==n&&("null"===n?null:"[]"===n?[]:n)})),n("g",(function(n){return t(n)?0:Array.isArray(n)?n.length:Object.keys(n).length}))}}}));

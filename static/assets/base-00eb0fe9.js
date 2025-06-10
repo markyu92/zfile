@@ -1,1 +1,0 @@
-const e=r=>typeof r>"u"||r===null||r==="",t=r=>!r||r.length===0,n=r=>r==="true"?!0:r==="false"?!1:r==="null"?null:r==="[]"?[]:r,s=r=>e(r)?0:Array.isArray(r)?r.length:Object.keys(r).length;export{n as c,s as g,e as i,t as s};

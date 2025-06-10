@@ -1,1 +1,0 @@
-System.register(["./index-legacy-e574cec8.js"],(function(e,t){"use strict";var n;return{setters:[function(e){n=e._}],execute:function(){e("default",{__name:"sso",setup:function(e){var t=new URLSearchParams(window.location.search).get("token");return t&&window.localStorage.setItem("zfile-token",t),n().push("/"),function(){}}})}}}));
