@@ -4,9 +4,9 @@ WORKDIR /root
 EXPOSE 8080
 
 VOLUME /data
+VOLUME /root/static
 
 COPY target/zfile-4.3.0.jar /root/zfile.jar
-COPY static/ /root/static
 
 RUN sed -i s:/archive.ubuntu.com:/mirrors.tuna.tsinghua.edu.cn/ubuntu:g /etc/apt/sources.list
 RUN apt update -y  \
